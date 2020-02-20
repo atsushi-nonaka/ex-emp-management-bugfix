@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,19 +77,17 @@ public class AdministratorController {
 						  ,Model model) {
 		
 		
-		if(result.hasErrors() || administratorService.findByMailAddress(form.getMailAddress()) != null || !(form.getPassword().equals(form.getCheckPassword()))){
-			if(administratorService.findByMailAddress(form.getMailAddress()) != null) {
-				result.rejectValue("mailAddress", null, "入力したメールアドレスは既に登録されています");
-			}
-			
-			if(!(form.getPassword().equals(form.getCheckPassword()))){
-				result.rejectValue("checkPassword", null, "確認用パスワードが一致しません");
-			}			
-			
-			return toInsert();
+		if(administratorService.findByMailAddress(form.getMailAddress()) != null) {
+			result.rejectValue("mailAddress", null, "入力したメールアドレスは既に登録されています");
 		}
 		
+		if(!(form.getPassword().equals(form.getCheckPassword()))){
+			result.rejectValue("checkPassword", null, "確認用パスワードが一致しません");
+		}			
 		
+		if(result.hasErrors()){
+			return toInsert();
+		}
 
 		Administrator administrator = new Administrator();
 		// フォームからドメインにプロパティ値をコピー
