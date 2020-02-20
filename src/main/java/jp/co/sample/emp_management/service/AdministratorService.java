@@ -26,6 +26,10 @@ public class AdministratorService {
 	 * @param administrator　管理者情報
 	 */
 	public void insert(Administrator administrator) {
+		//メールアドレスが存在していたらリターンを返す
+		if(findByMailAddress(administrator.getMailAddress()) != null) {
+			return;
+		}
 		administratorRepository.insert(administrator);
 	}
 	
@@ -40,4 +44,8 @@ public class AdministratorService {
 		return administrator;
 	}
 	
+	public Administrator findByMailAddress(String mailAddress) {
+		Administrator administrator = administratorRepository.findByMailAddress(mailAddress);
+		return administrator;
+	}
 }

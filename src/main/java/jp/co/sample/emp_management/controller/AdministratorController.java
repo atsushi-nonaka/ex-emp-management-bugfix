@@ -75,21 +75,16 @@ public class AdministratorController {
 						  ,RedirectAttributes redirectAttributes
 						  ,Model model) {
 		
-		if(result.hasErrors()) {
+		System.out.println(form);
+		if(result.hasErrors() || administratorService.findByMailAddress(form.getMailAddress()) != null || !(form.getPassword().equals(form.getCheckPassword()))) {
 			return toInsert();
 		}
-		
-		try {
-			Administrator administrator = new Administrator();
-			// フォームからドメインにプロパティ値をコピー
-			BeanUtils.copyProperties(form, administrator);
-			administratorService.insert(administrator);			
-		}catch(Exception e){
-			model.addAttribute("mailAddress", "メールアドレスが一致しています");
-			return toInsert();
-		}
-		
-		return "redirect:/";
+
+		Administrator administrator = new Administrator();
+		// フォームからドメインにプロパティ値をコピー
+		BeanUtils.copyProperties(form, administrator);
+		administratorService.insert(administrator);
+		return "redirect:/";						
 	}
 
 	/////////////////////////////////////////////////////
@@ -121,6 +116,7 @@ public class AdministratorController {
 			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
 			return toLogin();
 		}
+		session.setAttribute("administratorName", administrator.getName());
 		return "forward:/employee/showList";
 	}
 	
