@@ -75,10 +75,20 @@ public class AdministratorController {
 						  ,RedirectAttributes redirectAttributes
 						  ,Model model) {
 		
-		System.out.println(form);
-		if(result.hasErrors() || administratorService.findByMailAddress(form.getMailAddress()) != null || !(form.getPassword().equals(form.getCheckPassword()))) {
+		
+		if(result.hasErrors() || administratorService.findByMailAddress(form.getMailAddress()) != null || !(form.getPassword().equals(form.getCheckPassword()))){
+			if(administratorService.findByMailAddress(form.getMailAddress()) != null) {
+				result.rejectValue("mailAddress", null, "入力したメールアドレスは既に登録されています");
+			}
+			
+			if(!(form.getPassword().equals(form.getCheckPassword()))){
+				result.rejectValue("checkPassword", null, "確認用パスワードが一致しません");
+			}			
+			
 			return toInsert();
 		}
+		
+		
 
 		Administrator administrator = new Administrator();
 		// フォームからドメインにプロパティ値をコピー

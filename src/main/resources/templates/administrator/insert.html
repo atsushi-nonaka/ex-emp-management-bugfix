@@ -59,10 +59,6 @@
 										<label th:if="${#fields.hasErrors('mailAddress')}" th:errors="*{mailAddress}" class="error-messages">
 											メールアドレスを入力してください
 										</label>
-										<label th:if="${#fields.hasErrors('mailAddress')}" th:errors="*{mailAddress}" class="error-messages">
-											入力したメールアドレスは既に登録されています
-										</label>
-										<span th:text="${mailAddress}" style="color:red"></span>
 										<input type="text" name="mailAddress" id="mailAddress" class="form-control" placeholder="yamada@mail.com"
 											 th:field="*{mailAddress}" th:errorclass="error-input" value="yamada@mail.com">
 									</div>

@@ -93,9 +93,20 @@ public class EmployeeController {
 		return "redirect:/employee/showList";
 	}
 	
+	/**
+	 * 従業員リストを検索し表示させます.
+	 * 
+	 * @param name 従業員名
+	 * @param model リクエストスコープ
+	 * @return
+	 */
 	@RequestMapping("/searchName")
 	public String searchName(String name, Model model) {
 		List<Employee> employeeList = employeeService.searchList(name);
+		if(employeeList == null) {
+			model.addAttribute("nothingName", "1件もありませんでした");
+			return showList(model);
+		}
 		model.addAttribute("searchEmployeeList", employeeList);
 		return "employee/list";
 	}

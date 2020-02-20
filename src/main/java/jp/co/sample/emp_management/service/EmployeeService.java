@@ -55,6 +55,7 @@ public class EmployeeService {
 	
 	public List<Employee> searchList(String name){
 		List<Employee> employeeList = employeeRepository.findByName(name);
+		
 		return employeeList;
 	}
 }
