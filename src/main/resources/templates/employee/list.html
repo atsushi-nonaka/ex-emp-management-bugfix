@@ -64,6 +64,13 @@
 
 <!-- ここにモックのtable要素を貼り付けます -->
 
+				<form th:action="@{/employee/searchName}">
+					<p>従業員検索</p>
+					<input type="text" name="name" size="10">
+					<button>検索</button> 
+				</form>
+				
+
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -74,6 +81,21 @@
 					</thead>
 					<tbody>
 						<tr th:each="employee : ${employeeList}">
+							<td>
+								<a href="detail.html" th:href="@{'/employee/showDetail?id=' + ${employee.id}}">
+									<span th:text="${employee.name}">山田太郎</span>
+								</a>
+							</td>
+							<td>
+								<span th:text="${employee.hireDate}">2016/12/1</span>
+							</td>
+							<td>
+								<span th:text="${employee.dependentsCount} + '人'">3人</span>
+							</td>
+						</tr>
+					</tbody>
+					<tbody>
+						<tr th:each="employee : ${searchEmployeeList}">
 							<td>
 								<a href="detail.html" th:href="@{'/employee/showDetail?id=' + ${employee.id}}">
 									<span th:text="${employee.name}">山田太郎</span>

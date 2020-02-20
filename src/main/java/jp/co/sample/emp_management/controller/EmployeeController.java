@@ -92,4 +92,11 @@ public class EmployeeController {
 		employeeService.update(employee);
 		return "redirect:/employee/showList";
 	}
+	
+	@RequestMapping("/searchName")
+	public String searchName(String name, Model model) {
+		List<Employee> employeeList = employeeService.searchList(name);
+		model.addAttribute("searchEmployeeList", employeeList);
+		return "employee/list";
+	}
 }
