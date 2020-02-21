@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +26,7 @@ import jp.co.sample.emp_management.service.AdministratorService;
 @Controller
 @RequestMapping("/")
 public class AdministratorController {
-
+	
 	@Autowired
 	private AdministratorService administratorService;
 	
@@ -44,7 +43,7 @@ public class AdministratorController {
 		return new InsertAdministratorForm();
 	}
 	
-	//  (SpringSecurityに任せるためコメントアウトしました)
+	//(SpringSecurityに任せるためコメントアウトしました)
 	@ModelAttribute
 	public LoginForm setUpLoginForm() {
 		return new LoginForm();
@@ -92,6 +91,7 @@ public class AdministratorController {
 		Administrator administrator = new Administrator();
 		// フォームからドメインにプロパティ値をコピー
 		BeanUtils.copyProperties(form, administrator);
+		
 		administratorService.insert(administrator);
 		return "redirect:/";						
 	}
@@ -120,6 +120,7 @@ public class AdministratorController {
 	 */
 	@RequestMapping("/login")
 	public String login(LoginForm form, BindingResult result, Model model) {
+		System.out.println(form);
 		Administrator administrator = administratorService.login(form.getMailAddress(), form.getPassword());
 		if (administrator == null) {
 			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");

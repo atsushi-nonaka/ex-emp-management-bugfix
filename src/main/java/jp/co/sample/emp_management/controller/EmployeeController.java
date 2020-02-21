@@ -103,11 +103,11 @@ public class EmployeeController {
 	@RequestMapping("/searchName")
 	public String searchName(String name, Model model) {
 		List<Employee> employeeList = employeeService.searchList(name);
-		if(employeeList == null) {
+		if(employeeList.size() == 0) {
 			model.addAttribute("nothingName", "1件もありませんでした");
 			return showList(model);
 		}
-		model.addAttribute("searchEmployeeList", employeeList);
+		model.addAttribute("employeeList", employeeList);
 		return "employee/list";
 	}
 }
